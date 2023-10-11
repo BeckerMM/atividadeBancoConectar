@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class ProdutoDAO extends DAOPadrao <Produto, Integer>{
 
-    public ProdutoDAO(String tabela) throws SQLException {
+    public ProdutoDAO() throws SQLException {
         super("produto");
     }
 
@@ -22,17 +22,27 @@ public class ProdutoDAO extends DAOPadrao <Produto, Integer>{
     public void inserir(Produto objeto) {
         comandoSQL = "INSERT INTO produto VALUES (?,?,?);";
         try (PreparedStatement stmt = connection.prepareStatement(comandoSQL)) {
+
             stmt.setInt(1, objeto.getId());
             stmt.setString(2, objeto.getNome());
             stmt.setDouble(3, objeto.getPreco());
             stmt.execute();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public void atualizar(Produto objeto) {
+        comandoSQL = "UPDATE " +tabela +" SET nome = ? , preco = ? WHERE id =? ;";
+        try(PreparedStatement statement = connection.prepareStatement(comandoSQL)){
+            statement.setString(1, objeto.getNome());
+            statement.setDouble(2, objeto.getPreco());
+            statement.setInt(3, objeto.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
 
     }
 

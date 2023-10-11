@@ -62,4 +62,14 @@ public class Cliente {
     public void setIdade(Integer idade) {
         this.idade = idade;
     }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", idade=" + idade +
+                ", produto=" + produto +
+                '}';
+    }
 }

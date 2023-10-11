@@ -11,21 +11,20 @@ public abstract class DAOPadrao<T,ID> implements ICRUD<T,ID>{
 
     protected Connection connection;
     protected String comandoSQL;
-    private String tabela;
+    protected final String tabela;
     public DAOPadrao( String tabela) throws SQLException {
         this.connection = Banco.conectar();
         this.tabela = tabela;
     }
 
     public Set<T> buscarTodos() {
-         comandoSQL = "SELECT * FROM"+ tabela+ ";";
+         comandoSQL = "SELECT * FROM "+ tabela+ ";";
         try {
             PreparedStatement statement = connection.prepareStatement(comandoSQL);
             ResultSet resultSet = statement.executeQuery();
             Set<T> lista = new HashSet<>();
             //Ser como um forEach entre aspas
             while (resultSet.next()) {
-
                 lista.add(converter(resultSet));
             }
             return lista;
@@ -33,7 +32,7 @@ public abstract class DAOPadrao<T,ID> implements ICRUD<T,ID>{
             throw new RuntimeException(throwables);
         }
     }
-    public T buscarUm (Integer id) {
+    public  T buscarUm (Integer id) {
          comandoSQL = "SELECT * FROM "+tabela+" WHERE id = ?;";
 
         try (PreparedStatement statement = connection.prepareStatement(comandoSQL)) {
@@ -43,8 +42,8 @@ public abstract class DAOPadrao<T,ID> implements ICRUD<T,ID>{
                 return converter(resultSet);
             }
             throw new NoSuchElementException();
-        } catch (SQLException E) {
-            throw new RuntimeException();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -54,9 +53,7 @@ public abstract class DAOPadrao<T,ID> implements ICRUD<T,ID>{
 
     public void deletar( Integer id) {
          comandoSQL = "DELETE FROM "+tabela+" WHERE id = ? ;";
-
         try (PreparedStatement statement = connection.prepareStatement(comandoSQL)) {
-
             statement.setInt(1, id);
             statement.execute();
         } catch (SQLException throwables) {

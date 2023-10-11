@@ -22,7 +22,7 @@ public class Produto {
     public Produto(ResultSet resultSet) throws SQLException {
         this.id = resultSet.getInt("id");
         this.nome = resultSet.getString("nome");
-        this.preco = resultSet.getDouble("preco");
+        this.preco = resultSet.getDouble("valor");
     }
 
 

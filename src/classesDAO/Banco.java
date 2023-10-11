@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class Banco {
 
-    private static final String URL_BANCO = "jdbc:mysql://localhost:3306/db_atividae";
+    private static final String URL_BANCO = "jdbc:mysql://localhost:3306/db_atividade";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
